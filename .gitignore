@@ -4,3 +4,7 @@
 
 /.vs/MyLifeManager
 /.vs/MyLifeManager_POO/v17
+/MyLifeManager/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+/MyLifeManager/obj/Debug/DesignTimeResolveAssemblyReferences.cache
+/MyLifeManager/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/MyLifeManager/obj/Debug/MyLifeManager.csproj.AssemblyReference.cache
