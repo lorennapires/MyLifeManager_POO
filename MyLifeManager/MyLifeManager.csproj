@@ -105,19 +105,35 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Categoria.cs" />
+    <Compile Include="Models\Tarefa.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CategoriaService.cs" />
+    <Compile Include="Service\TarefaService.cs" />
     <Compile Include="UserControls\UC_CalendarMonth.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\UC_CalendarMonth.Designer.cs">
       <DependentUpon>UC_CalendarMonth.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\UC_Categorias.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\UC_Categorias.Designer.cs">
+      <DependentUpon>UC_Categorias.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\UC_Day.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\UC_Day.Designer.cs">
       <DependentUpon>UC_Day.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UC_Tarefas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\UC_Tarefas.Designer.cs">
+      <DependentUpon>UC_Tarefas.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -134,8 +150,14 @@
     <EmbeddedResource Include="UserControls\UC_CalendarMonth.resx">
       <DependentUpon>UC_CalendarMonth.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\UC_Categorias.resx">
+      <DependentUpon>UC_Categorias.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\UC_Day.resx">
       <DependentUpon>UC_Day.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\UC_Tarefas.resx">
+      <DependentUpon>UC_Tarefas.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -153,8 +175,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\" />
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
