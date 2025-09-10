@@ -91,6 +91,7 @@ namespace MyLifeManager.UserControls
 
         private void dgvCategorias_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            // Verifica se estamos na coluna "Cor" e se não é a linha do cabeçalho
             if (e.RowIndex >= 0 && dgvCategorias.Columns[e.ColumnIndex].Name == "Cor")
             {
                 if (e.Value != null)
@@ -100,15 +101,19 @@ namespace MyLifeManager.UserControls
                     {
                         try
                         {
+                            // Tenta converter o texto hexadecimal em uma cor real
                             Color cor = ColorTranslator.FromHtml(hexColor);
+
+                            // Pinta o fundo da célula
                             e.CellStyle.BackColor = cor;
-                            e.CellStyle.ForeColor = cor;
+
+                            // Pinta o texto de uma cor que contraste (branco ou preto)
+                            e.CellStyle.ForeColor = (cor.GetBrightness() < 0.5) ? Color.White : Color.Black;
                             e.CellStyle.SelectionBackColor = cor;
-                            e.CellStyle.SelectionForeColor = cor;
                         }
                         catch
                         {
-
+                            // Se o código for inválido, não faz nada
                         }
                     }
                 }

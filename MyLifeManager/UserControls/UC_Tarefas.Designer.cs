@@ -135,7 +135,7 @@
             this.dgvTarefas.Location = new System.Drawing.Point(326, 0);
             this.dgvTarefas.Name = "dgvTarefas";
             this.dgvTarefas.ReadOnly = true;
-            this.dgvTarefas.Size = new System.Drawing.Size(341, 400);
+            this.dgvTarefas.Size = new System.Drawing.Size(419, 400);
             this.dgvTarefas.TabIndex = 12;
             // 
             // labelCategorias
@@ -175,7 +175,7 @@
             this.Controls.Add(this.txtTituloTarefa);
             this.Controls.Add(this.label1);
             this.Name = "UC_Tarefas";
-            this.Size = new System.Drawing.Size(668, 400);
+            this.Size = new System.Drawing.Size(748, 400);
             this.Load += new System.EventHandler(this.UC_Tarefas_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTarefas)).EndInit();
             this.ResumeLayout(false);

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace MyLifeManager.UserControls
 {
@@ -35,7 +36,6 @@ namespace MyLifeManager.UserControls
 
         private void CarregarTarefas()
         {
-           
             var tarefas = _tarefaService.GetAllTarefas();
             dgvTarefas.DataSource = null;
             dgvTarefas.DataSource = tarefas;
@@ -44,17 +44,27 @@ namespace MyLifeManager.UserControls
 
         private void ConfigurarGrade()
         {
-            if (dgvTarefas.Columns.Contains("Id"))
-                dgvTarefas.Columns["Id"].Visible = false;
+            dgvTarefas.Columns["Id"].Visible = false;
+            dgvTarefas.Columns["CorDaCategoria"].Visible = false;
 
-            if (dgvTarefas.Columns.Contains("Categorias"))
-                dgvTarefas.Columns["Categorias"].Visible = false;
+            dgvTarefas.Columns["Titulo"].HeaderText = "Título";
+            dgvTarefas.Columns["Titulo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-            if (dgvTarefas.Columns.Contains("Descricao"))
-                dgvTarefas.Columns["Descricao"].Visible = false;
+            dgvTarefas.Columns["Descricao"].HeaderText = "Descrição";
+            dgvTarefas.Columns["Descricao"].Visible = true;
+            dgvTarefas.Columns["Descricao"].Width = 200;
 
-            if (dgvTarefas.Columns.Contains("Titulo"))
-                dgvTarefas.Columns["Titulo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvTarefas.Columns["CategoriasNomes"].HeaderText = "Categorias";
+            dgvTarefas.Columns["CategoriasNomes"].Width = 150;
+
+            dgvTarefas.Columns["Data_inicio"].HeaderText = "Início";
+            dgvTarefas.Columns["Data_inicio"].Width = 120;
+
+            dgvTarefas.Columns["Data_fim"].HeaderText = "Fim";
+            dgvTarefas.Columns["Data_fim"].Width = 120;
+
+            dgvTarefas.Columns["Concluida"].HeaderText = "OK?";
+            dgvTarefas.Columns["Concluida"].Width = 40;
         }
 
         private void btnSalvarTarefa_Click(object sender, EventArgs e)
@@ -81,9 +91,7 @@ namespace MyLifeManager.UserControls
             };
 
             var idsCategoriasSelecionadas = clbCategorias.CheckedItems.OfType<Categoria>().Select(c => c.Id).ToList();
-
             _tarefaService.InsertTarefaComCategorias(novaTarefa, idsCategoriasSelecionadas);
-
             MessageBox.Show("Tarefa salva com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             LimparCampos();
@@ -101,6 +109,18 @@ namespace MyLifeManager.UserControls
             {
                 clbCategorias.SetItemChecked(i, false);
             }
+        }
+
+        private void dgvTarefas_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex != dgvTarefas.Columns["Concluida"].Index)
+            {
+                return;
+            }
+
+            int tarefaId = (int)dgvTarefas.Rows[e.RowIndex].Cells["Id"].Value;
+            bool novoStatus = (bool)dgvTarefas.Rows[e.RowIndex].Cells["Concluida"].Value;
+            _tarefaService.UpdateStatusTarefa(tarefaId, novoStatus);
         }
     }
 }
