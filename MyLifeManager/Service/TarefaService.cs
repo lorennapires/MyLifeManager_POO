@@ -4,8 +4,6 @@ using MyLifeManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace MyLifeManager.Services
@@ -21,7 +19,7 @@ namespace MyLifeManager.Services
                 conn.Open();
                 string sql = @"
                     SELECT 
-                        t.id, t.titulo, t.descricao, t.data_inicio, t.data_fim, t.concluida, t.imagem,
+                        t.id, t.titulo, t.descricao, t.data_inicio, t.data_fim, t.concluida,
                         GROUP_CONCAT(c.nome SEPARATOR ', ') AS categorias_nomes,
                         MIN(c.cor) AS cor_categoria
                     FROM tarefa t
@@ -46,15 +44,6 @@ namespace MyLifeManager.Services
                         CategoriasNomes = reader.IsDBNull(reader.GetOrdinal("categorias_nomes")) ? "Sem Categoria" : reader.GetString("categorias_nomes"),
                         CorDaCategoria = reader.IsDBNull(reader.GetOrdinal("cor_categoria")) ? "#D3D3D3" : reader.GetString("cor_categoria")
                     };
-
-                    if (!reader.IsDBNull(reader.GetOrdinal("imagem")))
-                    {
-                        tarefa.Imagem = (byte[])reader["imagem"];
-                        using (var ms = new MemoryStream(tarefa.Imagem))
-                        {
-                            tarefa.ImagemObjeto = Image.FromStream(ms);
-                        }
-                    }
                     tarefas.Add(tarefa);
                 }
             }
@@ -81,14 +70,13 @@ namespace MyLifeManager.Services
                 conn.Open();
                 transaction = conn.BeginTransaction();
 
-                var cmdTarefa = new MySqlCommand("INSERT INTO tarefa (titulo, descricao, data_inicio, data_fim, concluida, imagem) VALUES (@titulo, @descricao, @data_inicio, @data_fim, @concluida, @imagem); SELECT LAST_INSERT_ID();", conn, transaction);
+                var cmdTarefa = new MySqlCommand("INSERT INTO tarefa (titulo, descricao, data_inicio, data_fim, concluida) VALUES (@titulo, @descricao, @data_inicio, @data_fim, @concluida); SELECT LAST_INSERT_ID();", conn, transaction);
 
                 cmdTarefa.Parameters.AddWithValue("@titulo", tarefa.Titulo);
                 cmdTarefa.Parameters.AddWithValue("@descricao", tarefa.Descricao);
                 cmdTarefa.Parameters.AddWithValue("@data_inicio", tarefa.Data_inicio.HasValue ? (object)tarefa.Data_inicio.Value : DBNull.Value);
                 cmdTarefa.Parameters.AddWithValue("@data_fim", tarefa.Data_fim.HasValue ? (object)tarefa.Data_fim.Value : DBNull.Value);
                 cmdTarefa.Parameters.AddWithValue("@concluida", tarefa.Concluida);
-                cmdTarefa.Parameters.AddWithValue("@imagem", tarefa.Imagem ?? (object)DBNull.Value);
 
                 long tarefaId = Convert.ToInt64(cmdTarefa.ExecuteScalar());
 

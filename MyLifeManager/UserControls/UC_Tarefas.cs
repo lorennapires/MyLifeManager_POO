@@ -18,6 +18,8 @@ namespace MyLifeManager.UserControls
             InitializeComponent();
             _tarefaService = new TarefaService();
             _categoriaService = new CategoriaService();
+            // Adiciona o evento de formatação de célula
+            this.dgvTarefas.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvTarefas_CellFormatting);
         }
 
         private void UC_Tarefas_Load(object sender, EventArgs e)
@@ -36,35 +38,102 @@ namespace MyLifeManager.UserControls
 
         private void CarregarTarefas()
         {
-            var tarefas = _tarefaService.GetAllTarefas();
             dgvTarefas.DataSource = null;
-            dgvTarefas.DataSource = tarefas;
-            ConfigurarGrade();
+            dgvTarefas.ReadOnly = false;
+            ConfigurarGrade(); // Chama a nova configuração
+            dgvTarefas.DataSource = _tarefaService.GetAllTarefas();
         }
 
         private void ConfigurarGrade()
         {
-            dgvTarefas.Columns["Id"].Visible = false;
-            dgvTarefas.Columns["CorDaCategoria"].Visible = false;
+            dgvTarefas.AutoGenerateColumns = false;
+            dgvTarefas.Columns.Clear();
 
-            dgvTarefas.Columns["Titulo"].HeaderText = "Título";
-            dgvTarefas.Columns["Titulo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            // Coluna TÍTULO
+            dgvTarefas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Titulo",
+                HeaderText = "Título",
+                Name = "colTitulo",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
 
-            dgvTarefas.Columns["Descricao"].HeaderText = "Descrição";
-            dgvTarefas.Columns["Descricao"].Visible = true;
-            dgvTarefas.Columns["Descricao"].Width = 200;
+            // Coluna DESCRIÇÃO
+            dgvTarefas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Descricao",
+                HeaderText = "Descrição",
+                Name = "colDescricao",
+                Width = 250
+            });
 
-            dgvTarefas.Columns["CategoriasNomes"].HeaderText = "Categorias";
-            dgvTarefas.Columns["CategoriasNomes"].Width = 150;
+            // Coluna NOMES DAS CATEGORIAS
+            dgvTarefas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "CategoriasNomes",
+                HeaderText = "Categorias",
+                Name = "colCategoriasNomes",
+                Width = 150
+            });
 
-            dgvTarefas.Columns["Data_inicio"].HeaderText = "Início";
-            dgvTarefas.Columns["Data_inicio"].Width = 120;
+            // Coluna DATA DE INÍCIO
+            dgvTarefas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Data_inicio",
+                HeaderText = "Início",
+                Name = "colDataInicio",
+                Width = 120
+            });
 
-            dgvTarefas.Columns["Data_fim"].HeaderText = "Fim";
-            dgvTarefas.Columns["Data_fim"].Width = 120;
+            // Coluna DATA DE FIM
+            dgvTarefas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Data_fim",
+                HeaderText = "Fim",
+                Name = "colDataFim",
+                Width = 120
+            });
 
-            dgvTarefas.Columns["Concluida"].HeaderText = "OK?";
-            dgvTarefas.Columns["Concluida"].Width = 40;
+            // Coluna COR DA CATEGORIA (REORGANIZADA)
+            dgvTarefas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "CorDaCategoria",
+                HeaderText = "Cor",
+                Name = "colCor",
+                Width = 50
+            });
+
+            // Coluna CONCLUÍDA (CHECKBOX)
+            dgvTarefas.Columns.Add(new DataGridViewCheckBoxColumn
+            {
+                DataPropertyName = "Concluida",
+                HeaderText = "OK?",
+                Name = "colConcluida",
+                Width = 40
+            });
+        }
+
+        private void dgvTarefas_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvTarefas.Columns[e.ColumnIndex].Name == "colCor")
+            {
+                if (e.Value != null)
+                {
+                    string hexColor = e.Value.ToString();
+                    if (!string.IsNullOrEmpty(hexColor))
+                    {
+                        try
+                        {
+                            Color cor = ColorTranslator.FromHtml(hexColor);
+                            e.CellStyle.BackColor = cor;
+                            e.CellStyle.ForeColor = cor; // Esconde o texto hexadecimal
+                            e.CellStyle.SelectionBackColor = cor;
+                            e.CellStyle.SelectionForeColor = cor;
+                        }
+                        catch { }
+                    }
+                }
+            }
         }
 
         private void btnSalvarTarefa_Click(object sender, EventArgs e)
@@ -113,14 +182,18 @@ namespace MyLifeManager.UserControls
 
         private void dgvTarefas_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex != dgvTarefas.Columns["Concluida"].Index)
+            if (e.RowIndex < 0 || dgvTarefas.Columns["colConcluida"] == null || e.ColumnIndex != dgvTarefas.Columns["colConcluida"].Index)
             {
                 return;
             }
 
-            int tarefaId = (int)dgvTarefas.Rows[e.RowIndex].Cells["Id"].Value;
-            bool novoStatus = (bool)dgvTarefas.Rows[e.RowIndex].Cells["Concluida"].Value;
-            _tarefaService.UpdateStatusTarefa(tarefaId, novoStatus);
+            // O DataGridView pode ter linhas que não estão ligadas a dados (como a linha de novo item)
+            // Esta verificação garante que só trabalhamos com linhas que têm dados reais
+            if (dgvTarefas.Rows[e.RowIndex].DataBoundItem is Tarefa tarefa)
+            {
+                bool novoStatus = (bool)dgvTarefas.Rows[e.RowIndex].Cells["colConcluida"].Value;
+                _tarefaService.UpdateStatusTarefa(tarefa.Id, novoStatus);
+            }
         }
     }
 }

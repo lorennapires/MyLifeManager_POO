@@ -15,8 +15,6 @@ namespace MyLifeManager.Models
         public string CorDaCategoria { get; set; }
         public List<Categoria> Categorias { get; set; }
         public string CategoriasNomes { get; set; }
-        public byte[] Imagem { get; set; }
-        public Image ImagemObjeto { get; set; }
 
         public Tarefa()
         {
