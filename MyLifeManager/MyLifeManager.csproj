@@ -99,6 +99,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Connection.cs" />
+    <Compile Include="Forms\FrmDetalheTarefa1.cs">
+      <SubType>Form</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Forms\FrmDetalheTarefa1.Designer.cs">
+      <DependentUpon>FrmDetalheTarefa1.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +143,10 @@
     <Compile Include="UserControls\UC_Tarefas.Designer.cs">
       <DependentUpon>UC_Tarefas.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\FrmDetalheTarefa1.resx">
+      <DependentUpon>FrmDetalheTarefa1.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -174,7 +186,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Forms\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

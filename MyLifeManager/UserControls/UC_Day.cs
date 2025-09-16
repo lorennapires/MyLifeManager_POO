@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyLifeManager.Models;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -23,7 +24,7 @@ namespace MyLifeManager.UserControls
                 lblDia.Text = diaNumero.ToString();
             }
         }
-     
+
         public Label LabelDia => lblDia;
 
         protected override void OnBackColorChanged(EventArgs e)
@@ -39,4 +40,3 @@ namespace MyLifeManager.UserControls
         }
     }
 }
-

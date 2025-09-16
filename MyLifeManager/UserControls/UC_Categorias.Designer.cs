@@ -28,7 +28,7 @@
             // LabelNomeCategoria
             // 
             this.LabelNomeCategoria.AutoSize = true;
-            this.LabelNomeCategoria.Location = new System.Drawing.Point(15, 15);
+            this.LabelNomeCategoria.Location = new System.Drawing.Point(31, 15);
             this.LabelNomeCategoria.Name = "LabelNomeCategoria";
             this.LabelNomeCategoria.Size = new System.Drawing.Size(101, 13);
             this.LabelNomeCategoria.TabIndex = 0;
@@ -36,7 +36,7 @@
             // 
             // txtNomeCategoria
             // 
-            this.txtNomeCategoria.Location = new System.Drawing.Point(120, 12);
+            this.txtNomeCategoria.Location = new System.Drawing.Point(136, 12);
             this.txtNomeCategoria.Name = "txtNomeCategoria";
             this.txtNomeCategoria.Size = new System.Drawing.Size(200, 20);
             this.txtNomeCategoria.TabIndex = 1;
@@ -44,7 +44,7 @@
             // LabelNomeCor
             // 
             this.LabelNomeCor.AutoSize = true;
-            this.LabelNomeCor.Location = new System.Drawing.Point(88, 48);
+            this.LabelNomeCor.Location = new System.Drawing.Point(104, 48);
             this.LabelNomeCor.Name = "LabelNomeCor";
             this.LabelNomeCor.Size = new System.Drawing.Size(26, 13);
             this.LabelNomeCor.TabIndex = 2;
@@ -54,18 +54,18 @@
             // 
             this.panelCor.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panelCor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelCor.Location = new System.Drawing.Point(120, 42);
+            this.panelCor.Location = new System.Drawing.Point(136, 42);
             this.panelCor.Name = "panelCor";
             this.panelCor.Size = new System.Drawing.Size(25, 25);
             this.panelCor.TabIndex = 3;
             // 
             // btnEscolherCor
             // 
-            this.btnEscolherCor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(224)))), ((int)(((byte)(229)))));
+            this.btnEscolherCor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(243)))));
             this.btnEscolherCor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEscolherCor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEscolherCor.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnEscolherCor.Location = new System.Drawing.Point(150, 42);
+            this.btnEscolherCor.Location = new System.Drawing.Point(166, 42);
             this.btnEscolherCor.Name = "btnEscolherCor";
             this.btnEscolherCor.Size = new System.Drawing.Size(75, 25);
             this.btnEscolherCor.TabIndex = 4;
@@ -79,7 +79,7 @@
             this.btnSalvarCategoria.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSalvarCategoria.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSalvarCategoria.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnSalvarCategoria.Location = new System.Drawing.Point(18, 80);
+            this.btnSalvarCategoria.Location = new System.Drawing.Point(34, 80);
             this.btnSalvarCategoria.Name = "btnSalvarCategoria";
             this.btnSalvarCategoria.Size = new System.Drawing.Size(302, 30);
             this.btnSalvarCategoria.TabIndex = 5;
@@ -93,7 +93,7 @@
             this.dgvCategorias.AllowUserToDeleteRows = false;
             this.dgvCategorias.BackgroundColor = System.Drawing.Color.SeaShell;
             this.dgvCategorias.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCategorias.Location = new System.Drawing.Point(18, 125);
+            this.dgvCategorias.Location = new System.Drawing.Point(34, 125);
             this.dgvCategorias.Name = "dgvCategorias";
             this.dgvCategorias.ReadOnly = true;
             this.dgvCategorias.Size = new System.Drawing.Size(395, 250);
@@ -104,7 +104,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(243)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(224)))), ((int)(((byte)(229)))));
             this.Controls.Add(this.dgvCategorias);
             this.Controls.Add(this.btnSalvarCategoria);
             this.Controls.Add(this.btnEscolherCor);

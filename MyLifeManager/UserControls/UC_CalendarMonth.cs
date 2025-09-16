@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MyLifeManager.Models;
 using MyLifeManager.Services;
+using MyLifeManager.Forms;
 
 namespace MyLifeManager.UserControls
 {
@@ -35,11 +36,9 @@ namespace MyLifeManager.UserControls
         private void CriarDiasSemana()
         {
             if (this.Controls.Find("painelDiasSemana", false).Any()) return;
-
             string[] nomesDias = { "Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb" };
             int larguraLabel = panelDias.Width / 7;
             int alturaLabel = 20;
-
             Panel painelDiasSemana = new Panel
             {
                 Name = "painelDiasSemana",
@@ -48,7 +47,6 @@ namespace MyLifeManager.UserControls
                 Location = new Point(panelDias.Location.X, panelDias.Location.Y - alturaLabel + 1),
                 BackColor = Color.Transparent
             };
-
             for (int i = 0; i < 7; i++)
             {
                 Label lblDia = new Label
@@ -64,17 +62,13 @@ namespace MyLifeManager.UserControls
                 };
                 painelDiasSemana.Controls.Add(lblDia);
             }
-
             this.Controls.Add(painelDiasSemana);
             painelDiasSemana.BringToFront();
         }
 
         private void AtualizarCalendario()
         {
-            lblMes.Text = new DateTime(ano, mes, 1)
-                .ToString("MMMM yyyy", new CultureInfo("pt-BR"))
-                .ToUpper();
-
+            lblMes.Text = new DateTime(ano, mes, 1).ToString("MMMM yyyy", new CultureInfo("pt-BR")).ToUpper();
             GerarDias();
             DesenharTarefas();
         }
@@ -85,22 +79,15 @@ namespace MyLifeManager.UserControls
             DateTime primeiroDiaMes = new DateTime(ano, mes, 1);
             int diaSemanaInicio = (int)primeiroDiaMes.DayOfWeek;
             int totalCaixas = 42;
-
             for (int i = 0; i < totalCaixas; i++)
             {
                 DateTime dataCorrente = primeiroDiaMes.AddDays(i - diaSemanaInicio);
-                UC_Day dayControl = new UC_Day();
-                dayControl.DiaNumero = dataCorrente.Day;
-                dayControl.Tag = dataCorrente;
-
-                if (dataCorrente.Month != mes)
+                UC_Day dayControl = new UC_Day
                 {
-                    dayControl.BackColor = Color.LightGray;
-                }
-                else
-                {
-                    dayControl.BackColor = Color.White;
-                }
+                    DiaNumero = dataCorrente.Day,
+                    Tag = dataCorrente,
+                    BackColor = (dataCorrente.Month != mes) ? Color.LightGray : Color.White
+                };
                 panelDias.Controls.Add(dayControl);
             }
         }
@@ -108,29 +95,22 @@ namespace MyLifeManager.UserControls
         private void DesenharTarefas()
         {
             if (panelDias.Controls.Count == 0) return;
-
             List<Tarefa> tarefas = _tarefaService.GetAllTarefas();
-
             DateTime primeiroDiaVisivel = (DateTime)panelDias.Controls[0].Tag;
             DateTime ultimoDiaVisivel = (DateTime)panelDias.Controls[panelDias.Controls.Count - 1].Tag;
-
             var tarefasDoPeriodo = tarefas.Where(t => t.Data_inicio.HasValue &&
                                                     t.Data_inicio.Value.Date >= primeiroDiaVisivel.Date &&
-                                                    t.Data_inicio.Value.Date <= ultimoDiaVisivel.Date).ToList();
-
+                                                    t.Data_inicio.Value.Date <= ultimoDiaVisivel.Date &&
+                                                    !t.Concluida).ToList();
             foreach (Control diaControl in panelDias.Controls)
             {
                 if (diaControl is UC_Day ucDay)
                 {
                     var flowPanelsParaRemover = ucDay.Controls.OfType<FlowLayoutPanel>().ToList();
-                    foreach (var panel in flowPanelsParaRemover)
-                    {
-                        ucDay.Controls.Remove(panel);
-                    }
+                    foreach (var panel in flowPanelsParaRemover) ucDay.Controls.Remove(panel);
 
                     DateTime dataDoDia = (DateTime)ucDay.Tag;
                     var tarefasDoDia = tarefasDoPeriodo.Where(t => t.Data_inicio.Value.Date == dataDoDia.Date).ToList();
-
                     if (tarefasDoDia.Any())
                     {
                         FlowLayoutPanel flowPanel = new FlowLayoutPanel
@@ -144,12 +124,10 @@ namespace MyLifeManager.UserControls
                         };
                         ucDay.Controls.Add(flowPanel);
                         flowPanel.BringToFront();
-
                         foreach (var tarefa in tarefasDoDia)
                         {
                             Color corDeFundo = string.IsNullOrEmpty(tarefa.CorDaCategoria) ? Color.Gray : ColorTranslator.FromHtml(tarefa.CorDaCategoria);
                             Color corDoTexto = (corDeFundo.GetBrightness() < 0.5) ? Color.White : Color.Black;
-
                             Label tarefaLabel = new Label
                             {
                                 Name = $"tarefaLabel_{tarefa.Id}",
@@ -162,6 +140,12 @@ namespace MyLifeManager.UserControls
                                 Height = 16,
                                 Width = ucDay.Width - 6,
                                 AutoEllipsis = true
+                            };
+                            tarefaLabel.Click += (s, e) =>
+                            {
+                                FrmDetalheTarefa1 detalhe = new FrmDetalheTarefa1(tarefa);
+                                detalhe.ShowDialog();
+                                AtualizarCalendario();
                             };
                             flowPanel.Controls.Add(tarefaLabel);
                         }
