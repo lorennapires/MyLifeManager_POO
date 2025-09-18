@@ -34,4 +34,3 @@ insert into categoria (nome, cor) values
 ('Estudos', '#33C1FF'),
 ('Pessoal', '#85FF33'),
 ('Saúde', '#FFBD33');
-
