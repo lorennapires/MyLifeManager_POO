@@ -1,6 +1,6 @@
 # 📆 MyLifeManager
 
-MyLifeManager é um sistema desktop desenvolvido em C# com Windows Forms (WinForms) que ajuda na organização pessoal.  
+MyLifeManager é um sistema desktop desenvolvido em C# com Windows Forms que ajuda na organização pessoal. 
 Permite cadastrar tarefas, gerenciar categorias e acompanhar tudo de forma visual em um calendário mensal.  
 
 
