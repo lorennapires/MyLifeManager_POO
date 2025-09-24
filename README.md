@@ -10,7 +10,7 @@ Permite cadastrar tarefas, gerenciar categorias e acompanhar tudo de forma visua
 ## 🗄️ Funcionalidades
 
 - **Calendário interativo**: navegação entre meses e visualização rápida das tarefas.
- 
+    
   ![Calendário](assets/calendario.PNG)
 
 - **Cadastro de tarefas**: título, descrição, data de início, categoria e status de conclusão.
@@ -18,12 +18,13 @@ Permite cadastrar tarefas, gerenciar categorias e acompanhar tudo de forma visua
   ![Cadastro de Tarefas](assets/tarefa.PNG)
 
 - **Cadastro de categorias**: organizar tarefas por categoria com cores personalizadas.
-  
+    
   ![Cadastro de Categorias](assets/categoria.PNG)
 
 - **Detalhamento de tarefas**: ao clicar em uma tarefa no calendário, exibe informações completas.
-  
- ![Cadastro de Categorias](assets/detalhe.PNG)
+   
+  ![Detalhamento de Tarefas](assets/detalhe.PNG)
+
 ---
 
 ## 📊 Tecnologias
